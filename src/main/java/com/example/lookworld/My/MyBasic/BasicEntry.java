@@ -1,15 +1,16 @@
-package com.example.lookworld.Basic;
+package com.example.lookworld.My.MyBasic;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BasicEntry {
+public class BasicEntry implements Serializable {
 
     //创建人
     private String createMan;

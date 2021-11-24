@@ -1,4 +1,4 @@
-package com.example.lookworld.MyRuturn;
+package com.example.lookworld.My.MyRuturn;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
-import static com.example.lookworld.MyRuturn.ResultEnum.*;
+import static com.example.lookworld.My.MyRuturn.ResultEnum.*;
 
 @Data
 @AllArgsConstructor
