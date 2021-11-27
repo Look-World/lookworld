@@ -11,6 +11,9 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
+ *
+ * Redis工具集
+ *
  * 该工具类摘抄于 bilibili遇见狂神说
  */
 @Component

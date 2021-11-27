@@ -2,29 +2,41 @@ package com.example.lookworld.My.MyUtils;
 
 import java.util.UUID;
 
+
+/**
+ *
+ *
+ * 生成id工具集
+ *
+ *
+ */
 public class GetIdUtils {
 
     ////////////////////////////////////////////////////生成uuid////////////////////////////////////////////////////////////
     /**
      * 生成uuid
      *
-     * 参数为1去除 ”-“ 参数为 “0” 不去除
-     *
-     * @param isReplace
-     * @return
+     * @param isReplace 参数为1去除 ”-“ 参数为 “0” 不去除
+     * @return uuid
      */
     private String getUUID(int isReplace){
-        if (isReplace != 0 ){
-            throw new IllegalArgumentException("传入参数异常");
-        }
+        try {
         String uuid = " " ;
-        if(isReplace == 1) {
-            uuid = UUID.randomUUID().toString().replaceAll("-", "");
+        switch (isReplace){
+            case  1:
+                uuid = UUID.randomUUID().toString().replaceAll("-", "");
+                return uuid;
+            case 0:
+                uuid = UUID.randomUUID().toString();
+                return uuid;
+            default:
+                throw new IllegalAccessException("请传入正确的参数");
         }
-        if(isReplace == 0) {
-            uuid = UUID.randomUUID().toString();
+
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
-        return uuid;
+        return null;
     }
 
     public GetIdUtils(){
@@ -97,9 +109,9 @@ public class GetIdUtils {
     }
 
     /**
-     * 产生下一个ID
+     * 雪花算法生成id
      *
-     * @return
+     * @return id
      */
     public synchronized long nextId() {
         long currTimeStamp = getNewTimeStamp();
@@ -129,5 +141,5 @@ public class GetIdUtils {
 
 
     ////////////////////////////////////////////////////雪花算法生成id结束////////////////////////////////////////////////////////////
-    
+
 }
