@@ -1,5 +1,8 @@
 package com.example.lookworld.My.MyUtils;
 
+
+import org.springframework.stereotype.Component;
+
 import java.util.UUID;
 
 
@@ -10,6 +13,7 @@ import java.util.UUID;
  *
  *
  */
+@Component
 public class GetIdUtils {
 
     ////////////////////////////////////////////////////生成uuid////////////////////////////////////////////////////////////
@@ -19,7 +23,7 @@ public class GetIdUtils {
      * @param isReplace 参数为1去除 ”-“ 参数为 “0” 不去除
      * @return uuid
      */
-    private String getUUID(int isReplace){
+    public static String getUUID(int isReplace){
         try {
         String uuid = " " ;
         switch (isReplace){
@@ -74,12 +78,12 @@ public class GetIdUtils {
     private final static long DATA_CENTER_LEFT = SEQUENCE_BIT + MACHINE_BIT;
     private final static long TIMESTAMP_LEFT = DATA_CENTER_LEFT + DATA_CENTER_BIT;
 
-    private long dataCenterId;  //数据中心
-    private long machineId;     //机器标识
-    private long sequence = 0L; //序列号
-    private long lastTimeStamp = -1L;  //上一次时间戳
+    private static long dataCenterId;  //数据中心
+    private static long machineId;     //机器标识
+    private static long sequence = 0L; //序列号
+    private static long lastTimeStamp = -1L;  //上一次时间戳
 
-    private long getNextMill() {
+    private static long getNextMill() {
         long mill = getNewTimeStamp();
         while (mill <= lastTimeStamp) {
             mill = getNewTimeStamp();
@@ -87,33 +91,42 @@ public class GetIdUtils {
         return mill;
     }
 
-    private long getNewTimeStamp() {
+    private static long getNewTimeStamp() {
         return System.currentTimeMillis();
     }
 
-    /**
-     * 根据指定的数据中心ID和机器标志ID生成指定的序列号
-     *
-     * @param dataCenterId 数据中心ID
-     * @param machineId    机器标志ID
-     */
-    public GetIdUtils(long dataCenterId, long machineId) {
-        if (dataCenterId > MAX_DATA_CENTER_NUM || dataCenterId < 0) {
-            throw new IllegalArgumentException("DtaCenterId can't be greater than MAX_DATA_CENTER_NUM or less than 0！");
-        }
-        if (machineId > MAX_MACHINE_NUM || machineId < 0) {
-            throw new IllegalArgumentException("MachineId can't be greater than MAX_MACHINE_NUM or less than 0！");
-        }
-        this.dataCenterId = dataCenterId;
-        this.machineId = machineId;
+//    /**
+//     * 根据指定的数据中心ID和机器标志ID生成指定的序列号
+//     *
+//     * @param dataCenterId 数据中心ID
+//     * @param machineId    机器标志ID
+//     */
+//    public GetIdUtils(long dataCenterId, long machineId) {
+//        if (dataCenterId > MAX_DATA_CENTER_NUM || dataCenterId < 0) {
+//            throw new IllegalArgumentException("DtaCenterId can't be greater than MAX_DATA_CENTER_NUM or less than 0！");
+//        }
+//        if (machineId > MAX_MACHINE_NUM || machineId < 0) {
+//            throw new IllegalArgumentException("MachineId can't be greater than MAX_MACHINE_NUM or less than 0！");
+//        }
+//        this.dataCenterId = dataCenterId;
+//        this.machineId = machineId;
+//    }
+
+    //设置dataCenterId与machineId的值
+    public static void setUpDM(){
+        dataCenterId = 2;
+        machineId = 3;
     }
+
+
 
     /**
      * 雪花算法生成id
      *
      * @return id
      */
-    public synchronized long nextId() {
+    public static synchronized long nextId() {
+        setUpDM();
         long currTimeStamp = getNewTimeStamp();
         if (currTimeStamp < lastTimeStamp) {
             throw new RuntimeException("Clock moved backwards.  Refusing to generate id");

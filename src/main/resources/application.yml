@@ -2,13 +2,24 @@ server:
   port: 9842
 
 spring:
-  #mysql
+  # mysql
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3307/lookworld?serverTimezone=GMT%2B8
     username: root
     password: root
-  #redis
+  # redis
   redis:
     host: 127.0.0.1
     port: 6379
+# mybatis-plus
+mybatis-plus:
+  configuration:
+    # kong zhi tai da yin SQL
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    # LUO JI SHAN CHU
+    db-config:
+      logic-delete-field: isDelete
+      logic-delete-value: 1
+      logic-not-delete-value: 0

@@ -49,6 +49,13 @@ public class R<T> implements Serializable {
         String msg = re.getMsg();
         return success(code,msg,data);
     }
+    public static <T> R<T> success(String msg, T data){
+        R<T> result = new R<>(1000);
+        result.setCode(RESPONSE1.getCode());
+        result.setMsg(msg);
+        result.setData(data);
+        return result;
+    }
     public static <T> R<T> success(Integer code, String msg, T data){
         R<T> result = new R<>(1000);
         result.setCode(code);

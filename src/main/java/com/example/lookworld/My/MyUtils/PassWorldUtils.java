@@ -1,6 +1,7 @@
 package com.example.lookworld.My.MyUtils;
 
 
+import org.springframework.stereotype.Component;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -10,6 +11,7 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  * 密码工具集
  */
+@Component
 public class PassWorldUtils {
 
     //AES 加密密钥
@@ -21,7 +23,7 @@ public class PassWorldUtils {
      * @param src 加密文本
      * @return 密文
      */
-    public String AESEncoder(String src) {
+    public static String AESEncoder(String src) {
         try {
             if (src == null) {
                 throw new IllegalAccessException("非法入参");
@@ -44,7 +46,7 @@ public class PassWorldUtils {
      * @param src 密文
      * @return 明文
      */
-    public String AESDecoder(String src) {
+    public static String AESDecoder(String src) {
         try {
             byte[] raw = AES_KEY.getBytes("utf-8");
             SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
