@@ -1,16 +1,20 @@
-package com.example.lookworld.BaseLogin.Controller;
+package com.example.lookworld.Base.Login.Controller;
 
-import com.example.lookworld.BaseLogin.Entry.UserEntry;
-import com.example.lookworld.BaseLogin.Server.UserServer;
+import com.example.lookworld.Base.Login.Entry.UserEntry;
+import com.example.lookworld.Base.Login.Mapper.UserMapper;
+import com.example.lookworld.Base.Login.Server.UserServer;
 import com.example.lookworld.My.MyRuturn.R;
 import com.example.lookworld.My.MyUtils.HttpRequestGetIp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+@CrossOrigin
 @RestController
 @RequestMapping("user")
 public class UserController {

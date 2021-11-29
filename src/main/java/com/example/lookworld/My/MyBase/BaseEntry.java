@@ -22,7 +22,7 @@ public class BaseEntry implements Serializable {
     private Long id;
     //创建人
     @TableField(fill = FieldFill.INSERT)
-    private String createUser;
+    private Long createUser;
 
     //创建时间
     @TableField(fill = FieldFill.INSERT)
@@ -30,7 +30,7 @@ public class BaseEntry implements Serializable {
 
     //更新人
     @TableField(fill = FieldFill.UPDATE)
-    private String updateUser;
+    private Long updateUser;
 
     //更新时间
     @TableField(fill = FieldFill.UPDATE)

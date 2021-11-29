@@ -1,8 +1,8 @@
-package com.example.lookworld.BaseLogin.Server.Impl;
+package com.example.lookworld.Base.Login.Server.Impl;
 
-import com.example.lookworld.BaseLogin.Entry.UserEntry;
-import com.example.lookworld.BaseLogin.Mapper.UserMapper;
-import com.example.lookworld.BaseLogin.Server.UserServer;
+import com.example.lookworld.Base.Login.Entry.UserEntry;
+import com.example.lookworld.Base.Login.Mapper.UserMapper;
+import com.example.lookworld.Base.Login.Server.UserServer;
 import com.example.lookworld.My.MyRuturn.R;
 import com.example.lookworld.My.MyUtils.GetIdUtils;
 import com.example.lookworld.My.MyUtils.PassWorldUtils;
@@ -60,5 +60,15 @@ public class UserImpl implements UserServer {
             return R.error("用户名或密码错误");
         }
         return R.error("功能使用失败");
+    }
+
+    @Override
+    public UserEntry getUserInfo(String uuid) {
+        if(redisUtil.hasKey(uuid)){
+         int id = (int) redisUtil.getString(uuid);
+            UserEntry userEntry = userMapper.selectById(id);
+            return userEntry;
+        }
+        return null;
     }
 }

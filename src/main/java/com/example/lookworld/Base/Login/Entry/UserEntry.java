@@ -1,7 +1,5 @@
-package com.example.lookworld.BaseLogin.Entry;
+package com.example.lookworld.Base.Login.Entry;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.lookworld.My.MyBase.BaseEntry;
 import lombok.AllArgsConstructor;

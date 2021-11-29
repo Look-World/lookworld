@@ -1,7 +1,7 @@
-package com.example.lookworld.BaseLogin.Mapper;
+package com.example.lookworld.Base.Login.Mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.lookworld.BaseLogin.Entry.UserEntry;
+import com.example.lookworld.Base.Login.Entry.UserEntry;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
