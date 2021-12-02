@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+
 @CrossOrigin
 @RestController
 @RequestMapping("user")
@@ -22,11 +23,16 @@ public class UserController {
     @Autowired
     UserServer userServer;
 
+    //登录
     @RequestMapping("login")
     public R login(UserEntry userEntry, HttpServletRequest httpServletRequest){
         String ip = HttpRequestGetIp.getIpAddress(httpServletRequest);
         return userServer.login(userEntry,ip);
     }
 
-
+    //注册
+    @RequestMapping("registered")
+    public R registered(String uuid,UserEntry userEntry,HttpServletRequest httpServletRequest){
+        return userServer.registered(userEntry);
+    }
 }

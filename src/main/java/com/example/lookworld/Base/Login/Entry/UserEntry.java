@@ -34,6 +34,8 @@ public class UserEntry extends BaseEntry implements Serializable {
     private String sex;
     //角色
     private String role_id;
+    //状态
+    private String status;
 
 
 }

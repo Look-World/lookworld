@@ -1,5 +1,6 @@
 package com.example.lookworld.Base.Login.Server.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.lookworld.Base.Login.Entry.UserEntry;
 import com.example.lookworld.Base.Login.Mapper.UserMapper;
 import com.example.lookworld.Base.Login.Server.UserServer;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class UserImpl implements UserServer {
@@ -24,15 +27,18 @@ public class UserImpl implements UserServer {
 
     @Override
     public R login(UserEntry userEntry,String ip) {
-        if (redisUtil.hasKey(String.valueOf(userEntry.getId()))){
-            int Secondary = (int) redisUtil.getString(String.valueOf(userEntry.getId()));
+        if (redisUtil.hasKey(String.valueOf(userEntry.getAccount()))){
+            int Secondary = (int) redisUtil.getString(String.valueOf(userEntry.getAccount()));
             if(Secondary >5){
-                return R.error("账户已锁定，请于24小时后重试");
+               // return R.error("账户已锁定，请于24小时后重试");
             }
 
         }
         // 查询库中数据
-        UserEntry userEntry1 = userMapper.selectById(userEntry.getId());
+        QueryWrapper<UserEntry> queryWrapper = new QueryWrapper();
+        queryWrapper
+                .eq("account",userEntry.getAccount());
+        UserEntry userEntry1 = userMapper.selectOne(queryWrapper);
         if (userEntry1 == null){
             return R.error("用户名或密码错误");
         }
@@ -43,18 +49,18 @@ public class UserImpl implements UserServer {
         if (passWorld.equals(userEntry.getPassword()) && userEntry1.getAccount().equals(userEntry.getAccount()) ){
             String uuid = GetIdUtils.getUUID(1);
             //一小时后过期
-            redisUtil.setString(uuid,userEntry.getId(),3600);
+            redisUtil.setString(uuid,userEntry.getAccount(),3600);
             return R.success("登录成功",uuid);
         }
         //用户名&密码 不正确
         if (!passWorld.equals(userEntry.getPassword()) || userEntry1.getAccount().equals(userEntry.getAccount())){
             //在rides中创建计数
-            if (!redisUtil.hasKey(String.valueOf(userEntry.getId()))){
-                redisUtil.setString(String.valueOf(userEntry.getId()),1,86400);
+            if (!redisUtil.hasKey(String.valueOf(userEntry.getAccount()))){
+                redisUtil.setString(String.valueOf(userEntry.getAccount()),1,86400);
             }
             // 计数器加1
-            if(redisUtil.hasKey(String.valueOf(userEntry.getId()))){
-                redisUtil.incr(String.valueOf(userEntry.getId()),1);
+            if(redisUtil.hasKey(String.valueOf(userEntry.getAccount()))){
+                redisUtil.incr(String.valueOf(userEntry.getAccount()),1);
             }
 
             return R.error("用户名或密码错误");
@@ -63,12 +69,13 @@ public class UserImpl implements UserServer {
     }
 
     @Override
-    public UserEntry getUserInfo(String uuid) {
-        if(redisUtil.hasKey(uuid)){
-         int id = (int) redisUtil.getString(uuid);
-            UserEntry userEntry = userMapper.selectById(id);
-            return userEntry;
-        }
-        return null;
+    public R registered(UserEntry userEntry) {
+        String account = GetIdUtils.getUUID(1);
+        userEntry.setAccount(account);
+
+        userMapper.insert(userEntry);
+        Map<String, String> map = new HashMap();
+        map.put("account",account);
+        return R.success(map);
     }
 }

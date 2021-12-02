@@ -23,15 +23,6 @@ public class R<T> implements Serializable {
         this.code = code;
     }
 
-    //是否成功
-    @JsonIgnore
-    public boolean isSuccess(){
-        Boolean isSuccess = false;
-        if (this.code == 200 || this.code ==204) {
-            isSuccess = true;
-        }
-        return isSuccess;
-    }
 
 
     //成功时调用

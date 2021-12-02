@@ -13,12 +13,7 @@ public interface UserServer {
      */
     R login(UserEntry userEntry,String ip);
 
-    /**
-     * 获取用户信息
-     * @param uuid
-     * @return 用户信息实体类
-     */
-    UserEntry getUserInfo(String uuid);
 
+    R registered(UserEntry userEntry);
 
 }
