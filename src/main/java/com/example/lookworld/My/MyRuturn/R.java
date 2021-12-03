@@ -55,7 +55,7 @@ public class R<T> implements Serializable {
         return result;
     }
 
-    //失败时调用
+    //错误时时调用
     public static <T> R<T> error(){
         return error(RESPONSE10);
     }
@@ -80,4 +80,24 @@ public class R<T> implements Serializable {
         result.setData(data);
         return result;
     }
+    public static <T> R<T> NotFound(){
+        R<T> result = new R<>(1000);
+        result.setCode(RESPONSE4.getCode());
+        result.setMsg(RESPONSE4.getMsg());
+        return result;
+    }
+
+    //失败时调用：
+    public static <T> R<T> fail(String msg) {
+        return  R.fail(RESPONSE3.getCode(), msg);
+    }
+    public static <T> R<T> fail(int code, String msg) {
+        R<T> result = new R<>(1000);
+        result.setCode(code);
+        result.setMsg(msg);
+        return result;
+    }
+
+
+
 }

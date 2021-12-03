@@ -70,12 +70,21 @@ public class UserImpl implements UserServer {
 
     @Override
     public R registered(UserEntry userEntry) {
-        String account = GetIdUtils.getUUID(1);
-        userEntry.setAccount(account);
+        QueryWrapper<UserEntry> queryWrapper = new QueryWrapper<>();
+        queryWrapper
+                .eq("account",userEntry.getAccount());
+        UserEntry userEntry1 = userMapper.selectOne(queryWrapper);
+        if (userEntry1 != null) {
+            return R.error("账号重复");
+        }
 
-        userMapper.insert(userEntry);
-        Map<String, String> map = new HashMap();
-        map.put("account",account);
-        return R.success(map);
+        userEntry.setPassword(PassWorldUtils.AESEncoder(userEntry.getPassword()));
+        userEntry.setPhone(PassWorldUtils.AESEncoder(userEntry.getPhone()));
+
+        int result = userMapper.insert(userEntry);
+        if (result!=1){
+            return R.error("功能使用失败");
+        }
+        return R.success();
     }
 }

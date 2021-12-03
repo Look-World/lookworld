@@ -1,18 +1,19 @@
 package com.example.lookworld.Base.Login.Controller;
 
 import com.example.lookworld.Base.Login.Entry.UserEntry;
-import com.example.lookworld.Base.Login.Mapper.UserMapper;
+import com.example.lookworld.Base.Login.Entry.Validation.UserValidation;
 import com.example.lookworld.Base.Login.Server.UserServer;
 import com.example.lookworld.My.MyRuturn.R;
 import com.example.lookworld.My.MyUtils.HttpRequestGetIp;
+import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 
 @CrossOrigin
@@ -21,18 +22,18 @@ import javax.servlet.http.HttpServletRequest;
 public class UserController {
 
     @Autowired
-    UserServer userServer;
+    private UserServer userServer;
 
     //登录
     @RequestMapping("login")
-    public R login(UserEntry userEntry, HttpServletRequest httpServletRequest){
+    public R login( @Validated(UserValidation.registered.class) UserEntry userEntry, HttpServletRequest httpServletRequest){
         String ip = HttpRequestGetIp.getIpAddress(httpServletRequest);
         return userServer.login(userEntry,ip);
     }
 
     //注册
     @RequestMapping("registered")
-    public R registered(String uuid,UserEntry userEntry,HttpServletRequest httpServletRequest){
+    public R registered(String uuid, @Validated(UserValidation.Login.class) UserEntry userEntry, HttpServletRequest httpServletRequest){
         return userServer.registered(userEntry);
     }
 }

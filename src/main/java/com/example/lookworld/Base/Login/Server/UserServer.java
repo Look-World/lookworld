@@ -14,6 +14,11 @@ public interface UserServer {
     R login(UserEntry userEntry,String ip);
 
 
+    /**
+     * 注册
+     * @param userEntry 用户实体类
+     * @return R
+     */
     R registered(UserEntry userEntry);
 
 }
